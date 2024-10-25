@@ -11,6 +11,14 @@ Listmatr({C,F},[J])
 ([I][J])→[H]
 [H](1,1)→X
 [H](2,1)→Y
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar E
+DelVar F
+DelVar [H]
+DelVar [I]
 Disp "VALUES STORED: L₆"
 Disp "X:"
 Disp XFrac
