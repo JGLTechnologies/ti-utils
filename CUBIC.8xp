@@ -15,7 +15,17 @@ O→B
 (­B+√(B²-4AC))/(2A)→Z
 (­B-√(B²-4AC))/(2A)→V
 {U,Z,V}→L₆
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar P
+DelVar Q
+DelVar R
+DelVar U
+DelVar Z
+DelVar V
 Disp "VALUES STORED: L₆"
-Disp UFrac
-Disp ZFrac
-Disp VFrac
+Disp L₆(1)Frac
+Disp L₆(2)Frac
+Disp L₆(3)Frac
