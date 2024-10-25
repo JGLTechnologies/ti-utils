@@ -6,9 +6,9 @@ Input "D:",D
 P^3+(BC-3AD)/(6A²)→Q
 (C)/(3A)→R
 (Q+(Q²+(R-P²)^3)^.5)^(1/3)+(Q-(Q²+(R-P²)^3)^.5)^(1/3)+P→U
-1→A
 B/A→B
 C/A→C
+1→A
 (U+B)→O
 C+U(U+B)→C
 O→B
