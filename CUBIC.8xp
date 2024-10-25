@@ -25,6 +25,7 @@ DelVar R
 DelVar U
 DelVar Z
 DelVar V
+DelVar O
 Disp "VALUES STORED: L₆"
 Disp L₆(1)Frac
 Disp L₆(2)Frac
