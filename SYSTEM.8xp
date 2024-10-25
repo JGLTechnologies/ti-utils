@@ -19,6 +19,7 @@ DelVar E
 DelVar F
 DelVar [H]
 DelVar [I]
+DelVar [J]
 Disp "VALUES STORED: X, Y"
 Disp "X:"
 Disp XFrac
