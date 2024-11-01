@@ -12,9 +12,9 @@ C/A→C
 (U+B)→O
 C+U(U+B)→C
 O→B
-(­B+√(B²-4AC))/(2A)→Z
-(­B-√(B²-4AC))/(2A)→V
-{U,Z,V}→L₆
+(­B+√(B²-4AC))/(2A)→M
+(­B-√(B²-4AC))/(2A)→W
+{U,M,W}→L₆
 DelVar A
 DelVar B
 DelVar C
@@ -23,8 +23,8 @@ DelVar P
 DelVar Q
 DelVar R
 DelVar U
-DelVar Z
-DelVar V
+DelVar M
+DelVar W
 DelVar O
 Disp "VALUES STORED: L₆"
 Disp L₆(1)Frac
