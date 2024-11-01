@@ -8,6 +8,19 @@ Input "B:",E
 Input "C:",F
 Listmatr({A,D},{B,E},[I])
 Listmatr({C,F},[J])
+If det([I])=0
+Then
+Disp "NO UNIQUE SOLUTION"
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar E
+DelVar F
+DelVar [H]
+DelVar [I]
+DelVar [J]
+End
 ([I][J])→[H]
 [H](1,1)→X
 [H](2,1)→Y
