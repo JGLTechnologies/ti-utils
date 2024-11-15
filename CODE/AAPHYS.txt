@@ -1,0 +1,7 @@
+Menu("SELECT A PROGRAM","UNITVECT",P1,"MAGDIR",P2)
+Lbl P1
+prgmUNITVECT
+Stop
+Lbl P2
+prgmMAGDIR
+Stop

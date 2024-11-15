@@ -1,0 +1,19 @@
+Menu("SELECT A PROGRAM","SIN",P1,"COS",P2,"TAN",P3,"ARCSIN",P4,"ARCCOS",P5,"ARCTAN",P6)
+Lbl P1
+prgmSIN
+Stop
+Lbl P2
+prgmCOS
+Stop
+Lbl P3
+prgmTAN
+Stop
+Lbl P4
+prgmARCSIN
+Stop
+Lbl P5
+prgmARCCOS
+Stop
+Lbl P6
+prgmARCTAN
+Stop
