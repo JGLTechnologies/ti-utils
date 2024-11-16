@@ -1,0 +1,69 @@
+Menu("TRIG","SIN",P1,"COS",P2,"TAN",P3,"ARCSIN",P4,"ARCCOS",P5,"ARCTAN",P6,"QUIT",P7)
+Lbl P1
+Input "θ:",θ
+(^(θ)-^(­θ))/(2)→Z
+Disp "VALUES STORED: Z"
+If imag(Z)=0
+Then
+real(Z)→Z
+End
+Disp Z
+DelVar θ
+Stop
+Lbl P2
+Input "θ:",θ
+(^(θ)+^(­θ))/(2)→Z
+Disp "VALUES STORED: Z"
+If imag(Z)=0
+Then
+real(Z)→Z
+End
+Disp Z
+DelVar θ
+Stop
+Lbl P3
+Input "θ:",θ
+((^(θ)-^(­θ))/(2))/((^(θ)+^(­θ))/(2))→Z
+Disp "VALUES STORED: Z"
+If imag(Z)=0
+Then
+real(Z)→Z
+End
+Disp Z
+DelVar θ
+Stop
+Lbl P4
+Input "Z:",Z
+­ln(√(1-Z²)+Z)→θ
+Disp "VALUES STORED: θ"
+If imag(θ)=0
+Then
+real(θ)→θ
+End
+Disp θ
+DelVar Z
+Stop
+Lbl P5
+Input "Z:",Z
+π/2+ln(√(1-Z²)+Z)→θ
+Disp "VALUES STORED: θ"
+If imag(θ)=0
+Then
+real(θ)→θ
+End
+Disp θ
+DelVar Z
+Stop
+Lbl P6
+Input "Z:",Z
+1/2ln(1-Z)-1/2ln(1+Z)→θ
+Disp "VALUES STORED: θ"
+If imag(θ)=0
+Then
+real(θ)→θ
+End
+Disp θ
+DelVar Z
+Stop
+Lbl P7
+Stop

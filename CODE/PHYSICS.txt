@@ -1,3 +1,18 @@
+Menu("PHYSICS (DEGREE MODE*)","UNIT VECTOR",P1,"MAGNITUDE @ ANGLE",P2,"QUIT",P3)
+Lbl P1
+Input "MAGNITUDE:",M
+Input "ANGLE:",θ
+Mcos(θ)→I
+Msin(θ)→J
+Disp "VALUES STORED: [J]"
+Listmatr({I,J},[J])
+Disp toString(I)+"i + "+toString(J)+"j"
+DelVar M
+DelVar θ
+DelVar I
+DelVar J
+Stop
+Lbl P2
 Input "X COMP:",X
 Input "Y COMP:",Y
 If X>0
@@ -29,3 +44,6 @@ Disp "MAGNITUDE, ANGLE: M, θ"
 Disp toString(M)+" @ "+toString(θ)
 DelVar X
 DelVar Y
+Stop
+Lbl P3
+Stop

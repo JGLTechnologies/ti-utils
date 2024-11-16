@@ -1,0 +1,131 @@
+Menu("ALGEBRA","QUAD",P1,"CUBIC",P2,"SYSTEM STD FORM",P3,"SYSTEM Y INT FORM",P4,"QUIT",P5)
+Lbl P1
+Input "A:",A
+Input "B:",B
+Input "C:",C
+(­B+√(B²-4AC))/(2A)→O
+(­B-√(B²-4AC))/(2A)→W
+{O,W}→L₆
+DelVar A
+DelVar B
+DelVar C
+DelVar O
+DelVar W
+Disp "VALUES STORED: L₆"
+Disp L₆(1)Frac
+Disp L₆(2)Frac
+Stop
+Lbl P2
+Input "A:",A
+Input "B:",B
+Input "C:",C
+Input "D:",D
+(­B)/(3A)→P
+P^3+(BC-3AD)/(6A²)→Q
+(C)/(3A)→R
+(Q+(Q²+(R-P²)^3)^.5)^(1/3)+(Q-(Q²+(R-P²)^3)^.5)^(1/3)+P→U
+B/A→B
+C/A→C
+1→A
+(U+B)→O
+C+U(U+B)→C
+O→B
+(­B+√(B²-4AC))/(2A)→M
+(­B-√(B²-4AC))/(2A)→W
+{U,M,W}→L₆
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar P
+DelVar Q
+DelVar R
+DelVar U
+DelVar M
+DelVar W
+DelVar O
+Disp "VALUES STORED: L₆"
+Disp L₆(1)Frac
+Disp L₆(2)Frac
+Disp L₆(3)Frac
+Stop
+Lbl P3
+Disp "EQ 1"
+Input "A:",A
+Input "B:",B
+Input "C:",C
+Disp "EQ 2"
+Input "A:",D
+Input "B:",E
+Input "C:",F
+Listmatr({A,D},{B,E},[I])
+Listmatr({C,F},[J])
+If det([I])=0
+Then
+Disp "NO UNIQUE SOLUTION"
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar E
+DelVar F
+DelVar [H]
+DelVar [I]
+DelVar [J]
+End
+([I][J])→[H]
+[H](1,1)→X
+[H](2,1)→Y
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar E
+DelVar F
+DelVar [H]
+DelVar [I]
+DelVar [J]
+Disp "VALUES STORED: X, Y"
+Disp "X:"
+Disp XFrac
+Disp "Y:"
+Disp YFrac
+Stop
+Lbl P4
+Disp "EQ 1"
+Input "M:",A
+Input "B:",B
+Disp "EQ 2"
+Input "M:",C
+Input "B:",D
+Listmatr({A,C},{­1,­1},[I])
+Listmatr({­B,­D},[J])
+If det([I])=0
+Then
+Disp "NO UNIQUE SOLUTION"
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar [H]
+DelVar [I]
+DelVar [J]
+End
+([I][J])→[H]
+[H](1,1)→X
+[H](2,1)→Y
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar [H]
+DelVar [I]
+DelVar [J]
+Disp "VALUES STORED: X, Y"
+Disp "X:"
+Disp XFrac
+Disp "Y:"
+Disp YFrac
+Stop
+Lbl P5
+Stop

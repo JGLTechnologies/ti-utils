@@ -1,9 +1,0 @@
-Input "Z:",Z
-π/2+ln(√(1-Z²)+Z)→θ
-Disp "VALUES STORED: θ"
-If imag(θ)=0
-Then
-real(θ)→θ
-End
-Disp θ
-DelVar Z

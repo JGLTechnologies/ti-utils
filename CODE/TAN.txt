@@ -1,9 +1,0 @@
-Input "θ:",θ
-((^(θ)-^(­θ))/(2))/((^(θ)+^(­θ))/(2))→X
-Disp "VALUES STORED: X"
-If imag(X)=0
-Then
-real(X)→X
-End
-Disp X
-DelVar θ
