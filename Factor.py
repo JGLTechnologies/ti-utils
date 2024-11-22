@@ -2,19 +2,16 @@ def input_to_list(input_str):
     """Convert a comma-separated string to a list of floats."""
     return [float(num) for num in input_str.split(',')]
 
-
 def factors(n):
     """Return the set of factors of an integer n."""
     return set(x for i in range(1, abs(n) + 1) if n % i == 0 for x in (i, -i))
 
-
 def rational_roots(coeffs):
     """Find potential rational roots using the Rational Root Theorem."""
     p = factors(int(coeffs[-1]))  # Factors of the constant term
-    q = factors(int(coeffs[0]))  # Factors of the leading coefficient
+    q = factors(int(coeffs[0]))   # Factors of the leading coefficient
     potential_roots = set(px / qx for px in p for qx in q if qx != 0)
     return potential_roots
-
 
 def synthetic_division(coeffs, root):
     """Perform synthetic division on the polynomial with the given root."""
@@ -24,13 +21,11 @@ def synthetic_division(coeffs, root):
     remainder = quotient.pop()
     return quotient, remainder
 
-
 def gcd(a, b):
     """Calculate the Greatest Common Divisor of a and b."""
     while b != 0:
         a, b = b, a % b
     return abs(a)
-
 
 def reduce(function, iterable, initializer=None):
     """Apply function cumulatively to the items of iterable."""
@@ -43,28 +38,36 @@ def reduce(function, iterable, initializer=None):
         value = function(value, element)
     return value
 
-
 def calculate_gcf(coeffs):
     """Calculate the greatest common factor of the polynomial coefficients."""
-    int_coeffs = [int(c) for c in coeffs]
+    int_coeffs = [int(c) for c in coeffs if c != 0]
     return reduce(gcd, int_coeffs)
-
 
 def factor_polynomial(coeffs):
     """Factor the polynomial given by coeffs."""
-    if len(coeffs) <= 2:
+    if len(coeffs) <= 1:
         return [coeffs]
+
+    # Check for x as a factor (if the constant term is 0)
+    while coeffs[-1] == 0 and len(coeffs) > 1:
+        coeffs = coeffs[:-1]
+        yield [1, 0]
+
+    if len(coeffs) <= 1:
+        return
 
     # Find a root using the Rational Root Theorem
     roots = rational_roots(coeffs)
     for root in roots:
         quotient, remainder = synthetic_division(coeffs, root)
         if remainder == 0:
-            return [[1, -root]] + factor_polynomial(quotient)
+            yield [1, -root]
+            for factor in factor_polynomial(quotient):
+                yield factor
+            return
 
     # If no rational roots are found, return the polynomial as is
-    return [coeffs]
-
+    yield coeffs
 
 def format_polynomial(x):
     """Convert a list of coefficients to a polynomial string."""
@@ -110,14 +113,12 @@ def format_polynomial(x):
         str_result += (" + " if x[-1] > 0 else " - ") + str(abs(x[-1]))
     return str_result
 
-
 def format_factors(factors):
     """Format the factors into a readable string."""
     formatted_factors = []
     for factor in factors:
         formatted_factors.append('(' + format_polynomial(factor) + ')')
     return ''.join(formatted_factors)
-
 
 def main():
     input_str = input("Enter the polynomial: ")
@@ -135,7 +136,7 @@ def main():
         gcf = -gcf
 
     # Factor the polynomial
-    factors = factor_polynomial(normalized_coeffs)
+    factors = list(factor_polynomial(normalized_coeffs))
 
     # Format the factors for display
     formatted_factors = format_factors(factors)
@@ -145,6 +146,5 @@ def main():
         formatted_factors = "{}{}".format(gcf, formatted_factors)
 
     print(formatted_factors)
-
 
 main()
