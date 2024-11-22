@@ -1,16 +1,4 @@
-class Fraction():
-    a: int
-    b: int
-
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
-
-    def dec(self):
-        return self.a / self.b
-
-
-fraction_roots = []
+fraction_roots = set()
 gcf = 0
 
 
@@ -29,8 +17,9 @@ def rational_roots(coeffs):
     """Find potential rational roots using the Rational Root Theorem."""
     p = factors(int(coeffs[-1]))  # Factors of the constant term
     q = factors(int(coeffs[0]))  # Factors of the leading coefficient
-    fraction_roots += [Fraction(px, qx) for px in p for qx in q if qx != 0]
-    return set(f.dec() for f in fraction_roots)
+    f_roots = set((px, qx) for px in p for qx in q if qx != 0 and (px, qx))
+    fraction_roots.update(f_roots)
+    return set(f[0]/f[1] for f in fraction_roots)
 
 
 def synthetic_division(coeffs, root):
@@ -52,10 +41,7 @@ def gcd(a, b):
 def reduce(function, iterable, initializer=None):
     """Apply function cumulatively to the items of iterable."""
     it = iter(iterable)
-    if initializer is None:
-        value = next(it)
-    else:
-        value is initializer
+    value = initializer if initializer is not None else next(it)
     for element in it:
         value = function(value, element)
     return value
@@ -149,9 +135,9 @@ def format_factors(factors):
         if len(factor) == 2 and factor[0] == 1:
             root = -factor[1]
             for pr in fraction_roots:
-                if abs(root - pr.dec()) < 1e-6:
-                    a = pr.a
-                    b = pr.b
+                if abs(root - pr[0]/pr[1]) < 1e-6:
+                    a = pr[0]
+                    b = pr[1]
                     if a < 0 and b < 0:
                         a = abs(a)
                         b = abs(b)
