@@ -1,18 +1,15 @@
-from math import gcd
-from functools import reduce
-
-
 def input_to_list(input_str):
     """Convert a comma-separated string to a list of floats."""
     return [float(num) for num in input_str.split(',')]
 
 
+def factors(n):
+    """Return the set of factors of an integer n."""
+    return set(x for i in range(1, abs(n) + 1) if n % i == 0 for x in (i, -i))
+
+
 def rational_roots(coeffs):
     """Find potential rational roots using the Rational Root Theorem."""
-
-    def factors(n):
-        return set(x for i in range(1, abs(n) + 1) if n % i == 0 for x in (i, -i))
-
     p = factors(int(coeffs[-1]))  # Factors of the constant term
     q = factors(int(coeffs[0]))  # Factors of the leading coefficient
     potential_roots = set(px / qx for px in p for qx in q if qx != 0)
@@ -26,6 +23,31 @@ def synthetic_division(coeffs, root):
         quotient.append(quotient[-1] * root + coeff)
     remainder = quotient.pop()
     return quotient, remainder
+
+
+def gcd(a, b):
+    """Calculate the Greatest Common Divisor of a and b."""
+    while b != 0:
+        a, b = b, a % b
+    return abs(a)
+
+
+def reduce(function, iterable, initializer=None):
+    """Apply function cumulatively to the items of iterable."""
+    it = iter(iterable)
+    if initializer is None:
+        value = next(it)
+    else:
+        value = initializer
+    for element in it:
+        value = function(value, element)
+    return value
+
+
+def calculate_gcf(coeffs):
+    """Calculate the greatest common factor of the polynomial coefficients."""
+    int_coeffs = [int(c) for c in coeffs]
+    return reduce(gcd, int_coeffs)
 
 
 def factor_polynomial(coeffs):
@@ -44,15 +66,8 @@ def factor_polynomial(coeffs):
     return [coeffs]
 
 
-def format_factors(factors):
-    """Format the factors into a readable string."""
-    formatted_factors = []
-    for factor in factors:
-        formatted_factors.append('(' + format_polynomial(factor) + ')')
-    return ''.join(formatted_factors)
-
-
 def format_polynomial(x):
+    """Convert a list of coefficients to a polynomial string."""
     if len(x) == 0:
         return "0"
     if len(x) == 1:
@@ -96,14 +111,16 @@ def format_polynomial(x):
     return str_result
 
 
-def calculate_gcf(coeffs):
-    """Calculate the greatest common factor of the polynomial coefficients."""
-    int_coeffs = [int(c) for c in coeffs]
-    return reduce(gcd, int_coeffs)
+def format_factors(factors):
+    """Format the factors into a readable string."""
+    formatted_factors = []
+    for factor in factors:
+        formatted_factors.append('(' + format_polynomial(factor) + ')')
+    return ''.join(formatted_factors)
 
 
 def main():
-    input_str = input("Enter the polynomial coefficients (comma-separated): ")
+    input_str = input("Enter the polynomial: ")
     coeffs = input_to_list(input_str)
 
     # Calculate the GCF of the coefficients
