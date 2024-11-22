@@ -1,17 +1,37 @@
+class Fraction():
+    a: int
+    b: int
+
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+
+    def dec(self):
+        return self.a / self.b
+
+
+fraction_roots = []
+gcf = 0
+
+
 def input_to_list(input_str):
     """Convert a comma-separated string to a list of floats."""
     return [float(num) for num in input_str.split(',')]
+
 
 def factors(n):
     """Return the set of factors of an integer n."""
     return set(x for i in range(1, abs(n) + 1) if n % i == 0 for x in (i, -i))
 
+
 def rational_roots(coeffs):
+    global fraction_roots
     """Find potential rational roots using the Rational Root Theorem."""
     p = factors(int(coeffs[-1]))  # Factors of the constant term
-    q = factors(int(coeffs[0]))   # Factors of the leading coefficient
-    potential_roots = set(px / qx for px in p for qx in q if qx != 0)
-    return potential_roots
+    q = factors(int(coeffs[0]))  # Factors of the leading coefficient
+    fraction_roots += [Fraction(px, qx) for px in p for qx in q if qx != 0]
+    return set(f.dec() for f in fraction_roots)
+
 
 def synthetic_division(coeffs, root):
     """Perform synthetic division on the polynomial with the given root."""
@@ -21,11 +41,13 @@ def synthetic_division(coeffs, root):
     remainder = quotient.pop()
     return quotient, remainder
 
+
 def gcd(a, b):
     """Calculate the Greatest Common Divisor of a and b."""
     while b != 0:
         a, b = b, a % b
     return abs(a)
+
 
 def reduce(function, iterable, initializer=None):
     """Apply function cumulatively to the items of iterable."""
@@ -33,15 +55,17 @@ def reduce(function, iterable, initializer=None):
     if initializer is None:
         value = next(it)
     else:
-        value = initializer
+        value is initializer
     for element in it:
         value = function(value, element)
     return value
+
 
 def calculate_gcf(coeffs):
     """Calculate the greatest common factor of the polynomial coefficients."""
     int_coeffs = [int(c) for c in coeffs if c != 0]
     return reduce(gcd, int_coeffs)
+
 
 def factor_polynomial(coeffs):
     """Factor the polynomial given by coeffs."""
@@ -52,7 +76,6 @@ def factor_polynomial(coeffs):
     while coeffs[-1] == 0 and len(coeffs) > 1:
         coeffs = coeffs[:-1]
         yield [1, 0]
-
     if len(coeffs) <= 1:
         return
 
@@ -68,6 +91,7 @@ def factor_polynomial(coeffs):
 
     # If no rational roots are found, return the polynomial as is
     yield coeffs
+
 
 def format_polynomial(x):
     """Convert a list of coefficients to a polynomial string."""
@@ -113,14 +137,38 @@ def format_polynomial(x):
         str_result += (" + " if x[-1] > 0 else " - ") + str(abs(x[-1]))
     return str_result
 
+
 def format_factors(factors):
     """Format the factors into a readable string."""
+    global gcf
     formatted_factors = []
     for factor in factors:
-        formatted_factors.append('(' + format_polynomial(factor) + ')')
+        g = calculate_gcf(factor)
+        gcf *= g
+        factor = [coeff / g for coeff in factor]
+        if len(factor) == 2 and factor[0] == 1:
+            root = -factor[1]
+            for pr in fraction_roots:
+                if abs(root - pr.dec()) < 1e-6:
+                    a = pr.a
+                    b = pr.b
+                    if a < 0 and b < 0:
+                        a = abs(a)
+                        b = abs(b)
+                    elif b < 0:
+                        a = -a
+                        b = abs(b)
+                    formatted_factors.append('(' + format_polynomial([b, -a]) + ')')
+                    break
+            else:
+                formatted_factors.append('(' + format_polynomial(factor) + ')')
+        else:
+            formatted_factors.append('(' + format_polynomial(factor) + ')')
     return ''.join(formatted_factors)
 
+
 def main():
+    global gcf
     input_str = input("Enter the polynomial: ")
     coeffs = input_to_list(input_str)
 
@@ -135,6 +183,9 @@ def main():
         normalized_coeffs = [-coeff for coeff in normalized_coeffs]
         gcf = -gcf
 
+    # Track original possible roots for formatting
+    possible_roots = list(rational_roots(normalized_coeffs))
+
     # Factor the polynomial
     factors = list(factor_polynomial(normalized_coeffs))
 
@@ -146,5 +197,6 @@ def main():
         formatted_factors = "{}{}".format(gcf, formatted_factors)
 
     print(formatted_factors)
+
 
 main()
