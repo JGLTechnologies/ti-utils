@@ -1,3 +1,19 @@
+"""
+Factor.py works by first taking out a gcf. Then it is checked to see if a monomial
+can be factored out or if it can be factored by grouping. Then it uses the Rational Root Theorem to determine
+possible roots. Then synthetic division is used to determine which are real roots of the polynomial.
+This process finds all the linear factors and factors them out of the original polynomial.
+After it has been factored completely, the factors are then put through a formatting function which
+removes any gcf that could still be in a factor. It then turns the factors, which are currently lists of
+coefficients into a nice readable string.
+
+Factors are inputted as a list of coefficients.
+1,2,1 = x^2 + 2x + 1
+2, 0, 3 = 1x^2 + 3
+1,0,1,0 = x^3 + x
+"""
+
+
 fraction_roots = set()
 gcf = 0
 
@@ -207,9 +223,6 @@ def main():
     if normalized_coeffs[0] < 0:
         normalized_coeffs = [-coeff for coeff in normalized_coeffs]
         gcf = -gcf
-
-    # Track original possible roots for formatting
-    possible_roots = list(rational_roots(normalized_coeffs))
 
     # Factor the polynomial
     factors = list(factor_polynomial(normalized_coeffs))
