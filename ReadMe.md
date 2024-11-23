@@ -2,7 +2,7 @@
 Python
 </h2>
 
-There are 2 python programs provided by ti-utils.
+There are 2 Python programs provided by ti-utils.
 
 FACTOR.py: Factors polynomials
 
