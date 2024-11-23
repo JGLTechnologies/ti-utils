@@ -53,6 +53,23 @@ def calculate_gcf(coeffs):
     return reduce(gcd, int_coeffs)
 
 
+def get_terms(coeffs):
+    terms = []
+    for i, c in enumerate(coeffs):
+        if c != 0:
+            terms.append([c, len(coeffs) - i - 1])
+    return terms
+
+def get_coeffs(terms):
+    degree = [t[1] for t in terms]
+    degree.sort()
+    degree = degree[-1]
+    coeffs = [0]*(degree+1)
+    for t in terms:
+        coeffs[len(coeffs)-t[1]-1] = t[0]
+    return coeffs
+
+
 def factor_polynomial(coeffs):
     """Factor the polynomial given by coeffs."""
     if len(coeffs) <= 1:
@@ -65,6 +82,27 @@ def factor_polynomial(coeffs):
     if len(coeffs) <= 1:
         return
 
+    # Factor by grouping if there are 4 terms
+    if len([c for c in coeffs if c != 0]) == 4:
+        terms = get_terms(coeffs)
+
+        group_1 = terms[0:2]
+        max_power_1 = terms[1][1]
+        coeffs_1 = get_coeffs([ [group_1[0][0], group_1[0][1]-max_power_1], [group_1[1][0], group_1[1][1]-max_power_1] ])
+        gcf_1 = calculate_gcf(coeffs_1)
+        group_1 = [g / gcf_1 for g in coeffs_1]
+
+        group_2 = terms[2:4]
+        max_power_2 = terms[3][1]
+        coeffs_2 = get_coeffs([(group_2[0][0], group_2[0][1] - max_power_2), (group_2[1][0], group_2[1][1] - max_power_2)])
+        gcf_2 = calculate_gcf(coeffs_2)
+        group_2 = [g / gcf_2 for g in coeffs_2]
+
+        if group_1 == group_2:
+            yield get_coeffs([ (gcf_1, max_power_1), (gcf_2, max_power_2) ])
+            yield group_1
+            return
+
     # Find a root using the Rational Root Theorem
     roots = rational_roots(coeffs)
     for root in roots:
@@ -74,6 +112,7 @@ def factor_polynomial(coeffs):
             for factor in factor_polynomial(quotient):
                 yield factor
             return
+
 
     # If no rational roots are found, return the polynomial as is
     yield coeffs
