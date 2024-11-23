@@ -1,4 +1,4 @@
-from UTILS import format_polynomial
+from UTILS import *
 
 def subtract(x, y):
     result = [0] * len(x)
@@ -27,16 +27,14 @@ def mult(coeff, pow, x):
 def divide(poly, divisor):
     div_power = len(divisor) - 1
     poly_power = len(poly) - 1
-    result = [0] * (poly_power - div_power + 1)
-    for i in range(len(result)):
-        poly_power = len(poly) - 1
-        if poly_power < div_power:
-            break
-        term = poly[0] / divisor[0]
-        result[i] = term
-        sub = mult(term, poly_power - div_power, divisor)
+    result = []
+    while poly_power >= div_power:
+        term = [poly[0] / divisor[0], poly_power-div_power]
+        result.append(term)
+        sub = mult(term[0], term[1], divisor)
         poly = subtract(poly, sub)
-    return result, poly
+        poly_power = len(poly) - 1
+    return get_coeffs(result), poly
 
 
 def string_to_float(string_list):

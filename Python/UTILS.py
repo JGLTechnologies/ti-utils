@@ -1,4 +1,5 @@
 def format_polynomial(x):
+    """Format a list of coefficients into a polynomial string"""
     if len(x) == 0:
         return "0"
     if len(x) == 1:
@@ -40,3 +41,23 @@ def format_polynomial(x):
     if x[-1] != 0:
         str_result += (" + " if x[-1] > 0 else " - ") + str(abs(x[-1]))
     return str_result
+
+
+def get_terms(coeffs):
+    """Turns a list of coefficients into a list of terms in the form of [coeff, pow]"""
+    terms = []
+    for i in range(len(coeffs)):
+        if coeffs[i] != 0:
+            terms.append([coeffs[i], len(coeffs) - i - 1])
+    return terms
+
+
+def get_coeffs(terms):
+    """Turns a list of terms into a list of coefficients"""
+    degree = [t[1] for t in terms]
+    degree.sort()
+    degree = degree[-1]
+    coeffs = [0]*(degree+1)
+    for t in terms:
+        coeffs[len(coeffs)-t[1]-1] = t[0]
+    return coeffs
