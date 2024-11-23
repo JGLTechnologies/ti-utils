@@ -45,7 +45,7 @@ further. Polynomials are stored as lists of coefficients similar to Factor.py.
 Ti-Basic Programs
 </h3>
 
-ti-utils provided some nice programs for Algebra, Trig, and Physics. 
+ti-utils provides some nice programs for Algebra, Trig, and Physics. 
 The python app is not needed to run these programs.
 
 
