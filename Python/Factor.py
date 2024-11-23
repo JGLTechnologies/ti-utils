@@ -1,4 +1,4 @@
-from UTILS import format_polynomial
+from UTILS import *
 
 fraction_roots = set()
 gcf = 0
@@ -18,15 +18,7 @@ def rational_roots(coeffs):
     q = factors(int(coeffs[0]))  # Factors of the leading coefficient
     f_roots = set((px, qx) for px in p for qx in q if qx != 0 and (px, qx))
     fraction_roots.update(f_roots)
-    return set(f[0]/f[1] for f in fraction_roots)
-
-
-def synthetic_division(coeffs, root):
-    quotient = [coeffs[0]]
-    for coeff in coeffs[1:]:
-        quotient.append(quotient[-1] * root + coeff)
-    remainder = quotient.pop()
-    return quotient, remainder
+    return f_roots
 
 
 def gcd(a, b):
@@ -48,25 +40,6 @@ def calculate_gcf(coeffs):
     return reduce(gcd, int_coeffs)
 
 
-def get_terms(coeffs):
-    """Turns a list of coefficients into a list of terms in the form of [coeff, pow]"""
-    terms = []
-    for i in range(len(coeffs)):
-        if coeffs[i] != 0:
-            terms.append([coeffs[i], len(coeffs) - i - 1])
-    return terms
-
-def get_coeffs(terms):
-    """Turns a list of terms into a list of coefficients"""
-    degree = [t[1] for t in terms]
-    degree.sort()
-    degree = degree[-1]
-    coeffs = [0]*(degree+1)
-    for t in terms:
-        coeffs[len(coeffs)-t[1]-1] = t[0]
-    return coeffs
-
-
 def factor_polynomial(coeffs):
     if len(coeffs) <= 1:
         return [coeffs]
@@ -86,12 +59,16 @@ def factor_polynomial(coeffs):
         max_power_1 = terms[1][1]
         coeffs_1 = get_coeffs([[group_1[0][0], group_1[0][1]-max_power_1], [group_1[1][0], group_1[1][1]-max_power_1]])
         gcf_1 = calculate_gcf(coeffs_1)
+        if coeffs_1[0] < 0:
+            gcf_1*=-1
         group_1 = [g / gcf_1 for g in coeffs_1]
 
         group_2 = terms[2:4]
         max_power_2 = terms[3][1]
         coeffs_2 = get_coeffs([(group_2[0][0], group_2[0][1] - max_power_2), (group_2[1][0], group_2[1][1] - max_power_2)])
         gcf_2 = calculate_gcf(coeffs_2)
+        if coeffs_2[0] < 0:
+            gcf_2*=-1
         group_2 = [g / gcf_2 for g in coeffs_2]
 
         if group_1 == group_2:
@@ -99,12 +76,19 @@ def factor_polynomial(coeffs):
             yield group_1
             return
 
-    # Use Rational Root Theorem and synthetic division to find linear factors
+    # Use Rational Root Theorem and long division to find linear factors
     roots = rational_roots(coeffs)
     for root in roots:
-        quotient, remainder = synthetic_division(coeffs, root)
-        if remainder == 0:
-            yield [1, -root]
+        a, b = root[0], root[1]
+        quotient, remainder = divide(coeffs, [b, -a])
+        if len(remainder) == 0:
+            if a < 0 and b < 0:
+                a = abs(a)
+                b = abs(b)
+            elif b < 0:
+                a = -a
+                b = abs(b)
+            yield [b, -a]
             for factor in factor_polynomial(quotient):
                 yield factor
             return

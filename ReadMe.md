@@ -17,7 +17,7 @@ FACTOR.py
 
 Factor.py works by first taking out a gcf. Then it is checked to see if a monomial
 can be factored out or if it can be factored by grouping. Then it uses the Rational Root Theorem to determine
-possible roots. Then synthetic division is used to determine which are real roots of the polynomial.
+possible roots. Then long division is used to determine which are real roots of the polynomial.
 This process finds all the linear factors and factors them out of the original polynomial.
 After it has been factored completely, the factors are then put through a formatting function which
 removes any gcf that could still be in a factor. It then turns the factors, which are currently lists of
