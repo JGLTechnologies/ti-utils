@@ -46,7 +46,7 @@ Ti-Basic Programs
 </h3>
 
 ti-utils provides some nice programs for Algebra, Trig, and Physics. 
-The python app is not needed to run these programs.
+The Python app is not needed to run these programs.
 
 
 
