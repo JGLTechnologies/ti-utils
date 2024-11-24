@@ -1,7 +1,35 @@
 from UTILS import *
-from fractions import Fraction
 
 gcf = 0
+
+def get_frac(decimal):
+    max_denominator = 1000000
+    integer_part = int(decimal)
+    decimal_part = decimal - integer_part
+
+    if decimal_part == 0:
+        return integer_part, 1
+
+    a0 = int(decimal_part)
+    p0, q0 = 0, 1
+    p1, q1 = 1, a0
+
+    while True:
+        decimal_part = 1 / (decimal_part - a0)
+        a0 = int(decimal_part)
+        p2 = a0 * p1 + p0
+        q2 = a0 * q1 + q0
+
+        if q2 > max_denominator:
+            break
+
+        p0, q0 = p1, q1
+        p1, q1 = p2, q2
+
+    numerator = integer_part * q1 + p1
+    denominator = q1
+
+    return numerator, denominator
 
 
 def input_to_list(input_str):
@@ -77,8 +105,8 @@ def factor_polynomial(coeffs):
     # Use Rational Root Theorem and long division to find linear factors
     roots = rational_roots(coeffs)
     for root in roots:
-        f = Fraction(root).limit_denominator()
-        quotient, remainder = divide(coeffs, [f.denominator, -f.numerator])
+        a, b = get_frac(root)
+        quotient, remainder = divide(coeffs, [b, -a])
         if len(remainder) == 0:
             yield [1, -root]
             for factor in factor_polynomial(quotient):
@@ -98,9 +126,7 @@ def format_factors(factors):
         factor = [coeff / g for coeff in factor]
         if len(factor) == 2 and factor[0] == 1:
             root = -factor[1]
-            frac = Fraction(root).limit_denominator()
-            a = frac.numerator
-            b = frac.denominator
+            a, b = get_frac(root)
             if a < 0 and b < 0:
                 a = abs(a)
                 b = abs(b)
