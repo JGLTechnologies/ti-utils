@@ -1,6 +1,6 @@
 from UTILS import *
+from fractions import Fraction
 
-fraction_roots = set()
 gcf = 0
 
 
@@ -13,12 +13,10 @@ def factors(n):
 
 
 def rational_roots(coeffs):
-    global fraction_roots
     p = factors(int(coeffs[-1]))  # Factors of the constant term
     q = factors(int(coeffs[0]))  # Factors of the leading coefficient
-    f_roots = set((px, qx) for px in p for qx in q if qx != 0 and (px, qx))
-    fraction_roots.update(f_roots)
-    return f_roots
+    roots = set(px/qx for px in p for qx in q if qx != 0)
+    return roots
 
 
 def gcd(a, b):
@@ -79,16 +77,10 @@ def factor_polynomial(coeffs):
     # Use Rational Root Theorem and long division to find linear factors
     roots = rational_roots(coeffs)
     for root in roots:
-        a, b = root[0], root[1]
-        quotient, remainder = divide(coeffs, [b, -a])
+        f = Fraction(root).limit_denominator()
+        quotient, remainder = divide(coeffs, [f.denominator, -f.numerator])
         if len(remainder) == 0:
-            if a < 0 and b < 0:
-                a = abs(a)
-                b = abs(b)
-            elif b < 0:
-                a = -a
-                b = abs(b)
-            yield [b, -a]
+            yield [1, -root]
             for factor in factor_polynomial(quotient):
                 yield factor
             return
@@ -106,20 +98,16 @@ def format_factors(factors):
         factor = [coeff / g for coeff in factor]
         if len(factor) == 2 and factor[0] == 1:
             root = -factor[1]
-            for pr in fraction_roots:
-                if abs(root - pr[0]/pr[1]) < 1e-6:
-                    a = pr[0]
-                    b = pr[1]
-                    if a < 0 and b < 0:
-                        a = abs(a)
-                        b = abs(b)
-                    elif b < 0:
-                        a = -a
-                        b = abs(b)
-                    formatted_factors.append('(' + format_polynomial([b, -a]) + ')')
-                    break
-            else:
-                formatted_factors.append('(' + format_polynomial(factor) + ')')
+            frac = Fraction(root).limit_denominator()
+            a = frac.numerator
+            b = frac.denominator
+            if a < 0 and b < 0:
+                a = abs(a)
+                b = abs(b)
+            elif b < 0:
+                a = -a
+                b = abs(b)
+            formatted_factors.append('(' + format_polynomial([b, -a]) + ')')
         else:
             formatted_factors.append('(' + format_polynomial(factor) + ')')
     return ''.join(formatted_factors)
