@@ -14,7 +14,13 @@ def get_frac(decimal):
     p0, q0 = 0, 1
     p1, q1 = 1, a0
 
+    # Use a small epsilon value to avoid division by zero due to floating-point precision issues
+    epsilon = 1e-10
+
     while True:
+        if abs(decimal_part - a0) < epsilon:
+            break
+
         decimal_part = 1 / (decimal_part - a0)
         a0 = int(decimal_part)
         p2 = a0 * p1 + p0
