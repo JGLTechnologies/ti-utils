@@ -1,59 +1,31 @@
 from UTILS import *
 
 gcf = 0
-
-def get_frac(decimal):
-    max_denominator = 1000000
-    integer_part = int(decimal)
-    decimal_part = decimal - integer_part
-
-    if decimal_part == 0:
-        return integer_part, 1
-
-    a0 = int(decimal_part)
-    p0, q0 = 0, 1
-    p1, q1 = 1, a0
-
-    # Use a small epsilon value to avoid division by zero due to floating-point precision issues
-    epsilon = 1e-10
-
-    while True:
-        if abs(decimal_part - a0) < epsilon:
-            break
-
-        decimal_part = 1 / (decimal_part - a0)
-        a0 = int(decimal_part)
-        p2 = a0 * p1 + p0
-        q2 = a0 * q1 + q0
-
-        if q2 > max_denominator:
-            break
-
-        p0, q0 = p1, q1
-        p1, q1 = p2, q2
-
-    numerator = integer_part * q1 + p1
-    denominator = q1
-
-    return numerator, denominator
+monomial_factors = 0
 
 
-def input_to_list(input_str):
-    return [float(num) for num in input_str.split(',')]
-
-
-def factors(n):
-    return set(x for i in range(1, abs(n) + 1) if n % i == 0 for x in (i, -i))
+def get_factors(n):
+    if n == 0:
+        return set()
+    n = abs(n)
+    factors = set()
+    for i in range(1, int(n**0.5) + 1):
+        if n % i == 0:
+            factors.add(i)
+            factors.add(-i)
+            factors.add(n // i)
+            factors.add(-(n // i))
+    return factors
 
 
 def rational_roots(coeffs):
-    p = factors(int(coeffs[-1]))  # Factors of the constant term
-    q = factors(int(coeffs[0]))  # Factors of the leading coefficient
-    roots = set(px/qx for px in p for qx in q if qx != 0)
+    p = get_factors(int(coeffs[-1]))  # Factors of the constant term
+    q = get_factors(int(coeffs[0]))  # Factors of the leading coefficient
+    roots = set(px / qx for px in p for qx in q if qx != 0)
     return roots
 
 
-def gcd(a, b):
+def get_gcd(a, b):
     while b != 0:
         a, b = b, a % b
     return abs(a)
@@ -69,17 +41,64 @@ def reduce(function, iterable, initializer=None):
 
 def calculate_gcf(coeffs):
     int_coeffs = [int(c) for c in coeffs if c != 0]
-    return reduce(gcd, int_coeffs)
+    return reduce(get_gcd, int_coeffs)
+
+
+def get_frac(decimal, max_denominator=1000000):
+    # Handle sign of the decimal
+    is_negative = decimal < 0
+    decimal = abs(decimal)
+
+    # Split the integer and fractional parts
+    integer_part = int(decimal)
+    fractional_part = decimal - integer_part
+
+    if fractional_part == 0:
+        return -integer_part if is_negative else integer_part, 1
+
+    # Initialize continued fraction variables
+    num1, denom1 = 1, 0
+    num2, denom2 = integer_part, 1
+
+    while True:
+        fractional_part = 1 / fractional_part
+        next_term = int(fractional_part)
+        fractional_part -= next_term
+
+        # Calculate next numerator and denominator
+        num_next = next_term * num2 + num1
+        denom_next = next_term * denom2 + denom1
+
+        if denom_next > max_denominator:
+            # Adjust to stay within max_denominator
+            scale = (max_denominator - denom1) // denom2
+            num_next = num1 + scale * num2
+            denom_next = denom1 + scale * denom2
+            break
+
+        num1, denom1 = num2, denom2
+        num2, denom2 = num_next, denom_next
+
+        if fractional_part == 0:
+            break
+
+    numerator = num_next
+    denominator = denom_next
+    if is_negative:
+        numerator = -numerator
+
+    return numerator, denominator
 
 
 def factor_polynomial(coeffs):
+    global monomial_factors
     if len(coeffs) <= 1:
         return [coeffs]
 
     # Check for monomial factor
     while coeffs[-1] == 0 and len(coeffs) > 1:
         coeffs = coeffs[:-1]
-        yield [1, 0]
+        monomial_factors += 1
     if len(coeffs) <= 1:
         return
 
@@ -89,18 +108,28 @@ def factor_polynomial(coeffs):
 
         group_1 = terms[0:2]
         max_power_1 = terms[1][1]
-        coeffs_1 = get_coeffs([[group_1[0][0], group_1[0][1]-max_power_1], [group_1[1][0], group_1[1][1]-max_power_1]])
+        coeffs_1 = get_coeffs(
+            [
+                [group_1[0][0], group_1[0][1] - max_power_1],
+                [group_1[1][0], group_1[1][1] - max_power_1],
+            ]
+        )
         gcf_1 = calculate_gcf(coeffs_1)
         if coeffs_1[0] < 0:
-            gcf_1*=-1
+            gcf_1 *= -1
         group_1 = [g / gcf_1 for g in coeffs_1]
 
         group_2 = terms[2:4]
         max_power_2 = terms[3][1]
-        coeffs_2 = get_coeffs([(group_2[0][0], group_2[0][1] - max_power_2), (group_2[1][0], group_2[1][1] - max_power_2)])
+        coeffs_2 = get_coeffs(
+            [
+                (group_2[0][0], group_2[0][1] - max_power_2),
+                (group_2[1][0], group_2[1][1] - max_power_2),
+            ]
+        )
         gcf_2 = calculate_gcf(coeffs_2)
         if coeffs_2[0] < 0:
-            gcf_2*=-1
+            gcf_2 *= -1
         group_2 = [g / gcf_2 for g in coeffs_2]
 
         if group_1 == group_2:
@@ -139,16 +168,28 @@ def format_factors(factors):
             elif b < 0:
                 a = -a
                 b = abs(b)
-            formatted_factors.append('(' + format_polynomial([b, -a]) + ')')
+            formatted_factors.append("(" + format_polynomial([b, -a]) + ")")
         else:
-            formatted_factors.append('(' + format_polynomial(factor) + ')')
-    return ''.join(formatted_factors)
+            formatted_factors.append("(" + format_polynomial(factor) + ")")
+    return "".join(formatted_factors)
 
 
 def main():
     global gcf
     input_str = input("Enter the polynomial: ")
-    coeffs = input_to_list(input_str)
+    try:
+        coeffs = input_to_list(input_str)
+    except ValueError:
+        print("Invalid input")
+        main()
+        return
+    t = get_terms(coeffs)
+    if len(t) > 0 and t[0][1] == 0:
+        print(t[0][0])
+        return
+    elif coeffs[0] == 0:
+        print(0.0)
+        return
     gcf = calculate_gcf(coeffs)
     # Factor out gcf
     normalized_coeffs = [coeff / gcf for coeff in coeffs]
@@ -157,6 +198,8 @@ def main():
         normalized_coeffs = [-coeff for coeff in normalized_coeffs]
         gcf = -gcf
     factors = list(factor_polynomial(normalized_coeffs))
+    if monomial_factors > 0:
+        factors = [get_coeffs([(1, monomial_factors)])] + factors
     formatted_factors = format_factors(factors)
     if gcf != 1:
         formatted_factors = "{}{}".format(gcf, formatted_factors)
