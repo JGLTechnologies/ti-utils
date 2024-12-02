@@ -63,6 +63,8 @@ def get_terms(coeffs):
 
 def get_coeffs(terms):
     """Turns a list of terms into a list of coefficients"""
+    if len(terms) == 0:
+        return [0]
     degree = [t[1] for t in terms]
     degree.sort()
     degree = degree[-1]

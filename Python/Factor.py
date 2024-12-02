@@ -133,7 +133,9 @@ def factor_polynomial(coeffs):
         group_2 = [g / gcf_2 for g in coeffs_2]
 
         if group_1 == group_2:
-            for factor in factor_polynomial(get_coeffs([[gcf_1, max_power_1], [gcf_2, max_power_2]])):
+            for factor in factor_polynomial(
+                get_coeffs([[gcf_1, max_power_1], [gcf_2, max_power_2]])
+            ):
                 yield factor
             for factor in factor_polynomial(group_1):
                 yield factor
