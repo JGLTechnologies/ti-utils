@@ -1,4 +1,4 @@
-Menu("PHYSICS (DEGREE MODE*)","UNIT VECTOR",P1,"MAGNITUDE @ ANGLE",P2,"QUIT",P3)
+Menu("PHYSICS","UNIT VECTOR",P1,"MAGNITUDE @ ANGLE",P2,"Conversions",P3,"QUIT",P4)
 Lbl P1
 Input "MAGNITUDE:",M
 Input "ANGLE:",θ
@@ -13,6 +13,8 @@ DelVar I
 DelVar J
 Stop
 Lbl P2
+Menu("DEG OR RAD","DEG",U1,"RAD",U2)
+Lbl U1
 Input "X COMP:",X
 Input "Y COMP:",Y
 If X>0
@@ -41,9 +43,140 @@ End
 End
 √(X²+Y²)→M
 Disp "MAGNITUDE, ANGLE: M, θ"
-Disp toString(M)+" @ "+toString(θ)
+Disp toString(M)+" @ "+toString(θ)+"°"
 DelVar X
 DelVar Y
 Stop
+Lbl U2
+Input "X COMP:",X
+Input "Y COMP:",Y
+If X>0
+Then
+tan(Y/X)→θ
+Else
+If X<0 and Y≥0
+Then
+tan(Y/X)+π→θ
+Else
+If X<0 and Y<0
+Then
+tan(Y/X)-π→θ
+Else
+If X=0 and Y>0
+Then
+π/2→θ
+Else
+If X=0 and Y<0
+Then
+-π/2→θ
+End
+End
+End
+End
+End
+√(X²+Y²)→M
+Disp "MAGNITUDE, ANGLE: M, θ"
+Disp toString(M)+" @ "+toString(θ)+"Rad"
+DelVar X
+DelVar Y
+Stop
+Stop
 Lbl P3
+Menu("OPTIONS","Distance",O1,"Weight",O2,"WORK/ENERGY",O3,"TEMPERATURE",O4,"QUIT",O5)
+Lbl O1
+Menu("OPTIONS","km/h >> m/s",Z1,"Mph >> m/s",Z2,"QUIT",Q1)
+Lbl Z1
+Input "km/h:",Q
+Q*(5/18)→X
+Disp toString(X)+" m/s"
+DelVar Q
+Stop
+Lbl Z2
+Input "Mph:",Q
+Q*0.44704→X
+Disp toString(X)+" m/s"
+DelVar Q
+Stop
+Lbl Q1
+Stop
+Stop
+Lbl O2
+Menu("OPTIONS","lbs >> kg",Z3,"kg >> N",Z4,"N >> kg",Z5,"QUIT",Q2)
+Lbl Z3
+Input "lbs:",Q
+Q*0.45359237→X
+Disp toString(X)+" kg"
+DelVar Q
+Stop
+Lbl Z4
+Input "kg:",Q
+Q*9.80665→X
+Disp toString(X)+" N"
+DelVar Q
+Stop
+Lbl Z5
+Input "N:",Q
+Q/9.80665→X
+Disp toString(X)+" kg"
+DelVar Q
+Stop
+Lbl Q2
+Stop
+Stop
+Lbl O3
+Menu("OPTIONS","cal >> J",Z6,"J >> cal",Z7,"hp >> W",Z8,"W >> hp",Z9,"QUIT",Q3)
+Lbl Z6
+Input "cal:",Q
+Q*4.184→X
+Disp toString(X)+" J"
+DelVar Q
+Stop
+Lbl Z7
+Input "J:",Q
+Q*(1/4.184)→X
+Disp toString(X)+" cal"
+DelVar Q
+Stop
+Lbl Z8
+Input "hp:",Q
+Q*(745.69987158227022)→X
+Disp toString(X)+" W"
+DelVar Q
+Stop
+Lbl Z9
+Input "W:",Q
+Q*(1/745.69987158227022)→X
+Disp toString(X)+" hp"
+DelVar Q
+Stop
+Lbl Q3
+Stop
+Stop
+Lbl O4
+Menu("OPTIONS","F >> C",ZA,"C >> F",ZB,"C >> K",ZC,"QUIT",Q4)
+Lbl ZA
+Input "F:",Q
+(5/9)*(Q-32)→X
+Disp toString(X)+" C"
+DelVar Q
+Stop
+Lbl ZB
+Input "C:",Q
+((9/5)*Q)-32→X
+Disp toString(X)+" F"
+DelVar Q
+Stop
+Lbl ZC
+Input "C:",Q
+Q+273.15→X
+Disp toString(X)+" K"
+DelVar Q
+Stop
+Lbl Q4
+Stop
+Stop
+Lbl O5
+Stop
+Stop
+Lbl P4
 Stop
