@@ -1,4 +1,4 @@
-Menu("PHYSICS","UNIT VECTOR",P1,"MAGNITUDE @ ANGLE",P2,"Conversions",P3,"QUIT",P4)
+Menu("PHYSICS","UNIT VECTOR",P1,"MAGNITUDE @ ANGLE",P2,"Conversions",P3,"Constants",P4,"QUIT",P5)
 Lbl P1
 Input "MAGNITUDE:",M
 Input "ANGLE:",θ
@@ -84,17 +84,47 @@ Stop
 Lbl P3
 Menu("OPTIONS","Distance",O1,"Weight",O2,"WORK/ENERGY",O3,"TEMPERATURE",O4,"QUIT",O5)
 Lbl O1
-Menu("OPTIONS","km/h >> m/s",Z1,"Mph >> m/s",Z2,"QUIT",Q1)
+Menu("OPTIONS","km/h >> m/s",Z1,"m/s >> km/h",ZG,"mph >> m/s",Z2,"m/s >> mph",ZH,"miles >> meters",ZD,"meters >> miles",ZE,"inches >> cm",ZF,"QUIT",Q1)
 Lbl Z1
 Input "km/h:",Q
 Q*(5/18)→X
 Disp toString(X)+" m/s"
 DelVar Q
 Stop
+Lbl ZG
+Input "m/s:",Q
+Q*(18/5)→X
+Disp toString(X)+" km/h"
+DelVar Q
+Stop
 Lbl Z2
-Input "Mph:",Q
+Input "mph:",Q
 Q*0.44704→X
 Disp toString(X)+" m/s"
+DelVar Q
+Stop
+Lbl ZH
+Input "m/s:",Q
+Q*(1/0.44704)→X
+Disp toString(X)+" mph"
+DelVar Q
+Stop
+Lbl ZD
+Input "miles:",Q
+Q*1609.344→X
+Disp toString(X)+" m"
+DelVar Q
+Stop
+Lbl ZE
+Input "m:",Q
+Q/1609.344→X
+Disp toString(X)+" mi"
+DelVar Q
+Stop
+Lbl ZF
+Input "inches:",Q
+Q*2.54→X
+Disp toString(X)+" cm"
 DelVar Q
 Stop
 Lbl Q1
@@ -179,4 +209,21 @@ Lbl O5
 Stop
 Stop
 Lbl P4
+Menu("Constants","Speed of light",C1,"Gravtiational constant",C2,"a due to gravity",C3,"QUIT",C4)
+Lbl C1
+Disp toString(299792458)+" m/s"
+299792458→X
+Stop
+Lbl C2
+Disp toString(6.6743­11)+" m^3/kgs^2"
+6.6743­11→X
+Stop
+Lbl C3
+Disp toString(9.80665)+" m/s^2"
+9.80665→X
+Stop
+Lbl C4
+Stop
+Stop
+Lbl P5
 Stop
