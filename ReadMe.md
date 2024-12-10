@@ -10,13 +10,16 @@ POLYDIV.py: Does polynomial long division
 
 UTILS.py doesn't do anything by itself, but it needs to be downloaded for Python programs to work.
 
+UTILS_F.py doesn't do anything by itself, but it needs to be downloaded for Factor.py to work.
+
 
 <h3>
 FACTOR.py
 </h3>
 
 Factor.py works by first taking out a gcf. Then it is checked to see if a monomial
-can be factored out or if it can be factored by grouping. Then it uses the Rational Root Theorem to determine
+can be factored out. The program then checks for special cases such as a perfect square trinomial, 
+difference of two squares, and grouping. Then it uses the Rational Root Theorem to determine
 possible roots. Then long division is used to determine which are real roots of the polynomial.
 This process finds all the linear factors and factors them out of the original polynomial.
 After it has been factored completely, the factors are then put through a formatting function which
@@ -27,7 +30,7 @@ Polynomials are inputted as a list of coefficients.
 
 1,2,1 = x^2 + 2x + 1
 
-2, 0, 3 = 1x^2 + 3
+2, 0, 3 = 2x^2 + 3
 
 1,0,1,0 = x^3 + x
 

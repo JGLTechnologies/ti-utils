@@ -42,10 +42,10 @@ def format_polynomial(x):
                     str_result += " - x^" + str(len(x) - i - 1)
                 else:
                     str_result += (
-                        (" + " if x[i] > 0 else " - ")
-                        + str(abs(x[i]))
-                        + "x^"
-                        + str(len(x) - i - 1)
+                            (" + " if x[i] > 0 else " - ")
+                            + str(abs(x[i]))
+                            + "x^"
+                            + str(len(x) - i - 1)
                     )
     if x[-1] != 0:
         str_result += (" + " if x[-1] > 0 else " - ") + str(abs(x[-1]))
@@ -57,7 +57,7 @@ def get_terms(coeffs):
     terms = []
     for i in range(len(coeffs)):
         if coeffs[i] != 0:
-            terms.append([coeffs[i], len(coeffs) - i - 1])
+            terms.append((coeffs[i], len(coeffs) - i - 1))
     return terms
 
 
@@ -92,7 +92,7 @@ def subtract(x, y):
             z += 1
         else:
             break
-    return result[z : len(result)]
+    return result[z: len(result)]
 
 
 def mult(coeff, pow, x):
