@@ -2,6 +2,25 @@ def input_to_list(input_str):
     return [float(num) for num in input_str.split(",")]
 
 
+def multiply_poly(a, b):
+    a_terms = get_terms(a)
+    b_terms = get_terms(b)
+    result = []
+    for a_term in a_terms:
+        for b_term in b_terms:
+            result.append((b_term[0]*a_term[0], b_term[1]+a_term[1]))
+    return get_coeffs(result)
+
+
+def is_int(x):
+    if isinstance(x, int):
+        return True
+    try:
+        return int(str(x).split(".")[1]) == 0
+    except ValueError:
+        return False
+
+
 def format_polynomial(x):
     """Format a list of coefficients into a polynomial string"""
     if len(x) == 0:
@@ -10,45 +29,51 @@ def format_polynomial(x):
         return str(x[0]) if x[0] != 0 else "0"
     str_result = ""
     for i in range(len(x) - 1):
-        if x[i] == 0:
+        c = x[i]
+        if is_int(c):
+           c = int(c)
+        if c == 0:
             continue
         if i == 0:
             if len(x) - i - 1 == 1:
-                if x[i] == 1:
+                if c == 1:
                     str_result += "x"
-                elif x[i] == -1:
+                elif c == -1:
                     str_result += "-x"
                 else:
-                    str_result += str(x[i]) + "x"
+                    str_result += str(c) + "x"
             else:
-                if x[i] == 1:
+                if c == 1:
                     str_result += "x^" + str(len(x) - i - 1)
-                elif x[i] == -1:
+                elif c == -1:
                     str_result += "-x^" + str(len(x) - i - 1)
                 else:
-                    str_result += str(x[i]) + "x^" + str(len(x) - i - 1)
+                    str_result += str(c) + "x^" + str(len(x) - i - 1)
         else:
             if len(x) - i - 1 == 1:
-                if x[i] == 1:
+                if c == 1:
                     str_result += " + x"
-                elif x[i] == -1:
+                elif c == -1:
                     str_result += " - x"
                 else:
-                    str_result += (" + " if x[i] > 0 else " - ") + str(abs(x[i])) + "x"
+                    str_result += (" + " if c > 0 else " - ") + str(abs(c)) + "x"
             else:
-                if x[i] == 1:
+                if c == 1:
                     str_result += " + x^" + str(len(x) - i - 1)
-                elif x[i] == -1:
+                elif c == -1:
                     str_result += " - x^" + str(len(x) - i - 1)
                 else:
                     str_result += (
-                            (" + " if x[i] > 0 else " - ")
-                            + str(abs(x[i]))
+                            (" + " if c > 0 else " - ")
+                            + str(abs(c))
                             + "x^"
                             + str(len(x) - i - 1)
                     )
-    if x[-1] != 0:
-        str_result += (" + " if x[-1] > 0 else " - ") + str(abs(x[-1]))
+    c = x[-1]
+    if c != 0:
+        if is_int(c):
+           c = int(c)
+        str_result += (" + " if c > 0 else " - ") + str(abs(c))
     return str_result
 
 
@@ -65,12 +90,10 @@ def get_coeffs(terms):
     """Turns a list of terms into a list of coefficients"""
     if len(terms) == 0:
         return [0]
-    degree = [t[1] for t in terms]
-    degree.sort()
-    degree = degree[-1]
+    degree = max([t[1] for t in terms])
     coeffs = [0] * (degree + 1)
     for t in terms:
-        coeffs[len(coeffs) - t[1] - 1] = t[0]
+        coeffs[len(coeffs) - t[1] - 1] += t[0]
     return coeffs
 
 
@@ -95,13 +118,6 @@ def subtract(x, y):
     return result[z: len(result)]
 
 
-def mult(coeff, pow, x):
-    result = [0] * (len(x) + pow)
-    for i in range(len(x)):
-        result[i] = x[i] * coeff
-    return result
-
-
 def divide(poly, divisor):
     div_power = len(divisor) - 1
     poly_power = len(poly) - 1
@@ -109,7 +125,7 @@ def divide(poly, divisor):
     while poly_power >= div_power:
         term = [poly[0] / divisor[0], poly_power - div_power]
         result.append(term)
-        sub = mult(term[0], term[1], divisor)
+        sub = multiply_poly(get_coeffs([(term[0], term[1])]), divisor)
         poly = subtract(poly, sub)
         poly_power = len(poly) - 1
     return get_coeffs(result), poly

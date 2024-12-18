@@ -1,9 +1,3 @@
-def is_int(x):
-    if isinstance(x, int):
-        return True
-    return int(str(x).split(".")[1]) == 0
-
-
 def get_frac(decimal, max_denominator=1000000):
     # Handle sign of the decimal
     is_negative = decimal < 0

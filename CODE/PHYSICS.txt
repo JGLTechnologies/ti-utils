@@ -131,11 +131,17 @@ Lbl Q1
 Stop
 Stop
 Lbl O2
-Menu("OPTIONS","lbs >> kg",Z3,"kg >> N",Z4,"N >> kg",Z5,"QUIT",Q2)
+Menu("OPTIONS","lbs >> kg",Z3,"kg >> lbs",ZI,"kg >> N",Z4,"N >> kg",Z5,"QUIT",Q2)
 Lbl Z3
 Input "lbs:",Q
 Q*0.45359237→X
 Disp toString(X)+" kg"
+DelVar Q
+Stop
+Lbl ZI
+Input "kg:",Q
+Q*(1/0.45359237)→X
+Disp toString(X)+" lbs"
 DelVar Q
 Stop
 Lbl Z4

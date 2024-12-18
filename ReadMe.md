@@ -45,6 +45,14 @@ the polynomial can not be divided any
 further. Polynomials are stored as lists of coefficients similar to Factor.py.
 
 <h3>
+EXPAND.py & FOIL.py
+</h3>
+
+EXPAND.py takes a polynomial and raises it to a power. FOIL.py takes two polynomials and multiplies them.
+Polynomials are inputted as a list of coefficients similar to the other programs above.
+UTILS.py is needed for both of these programs.
+
+<h3>
 Ti-Basic Programs
 </h3>
 
