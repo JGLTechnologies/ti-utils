@@ -1,4 +1,6 @@
-Menu("TRIG","SIN",P1,"COS",P2,"TAN",P3,"ARCSIN",P4,"ARCCOS",P5,"ARCTAN",P6,"QUIT",P7)
+Menu("TRIG","COMPLEX TRIG",F1,"REDUCE ANGLE",F2,"QUIT",F3)
+Lbl F1
+Menu("COMPLEX TRIG","SIN",P1,"COS",P2,"TAN",P3,"ARCSIN",P4,"ARCCOS",P5,"ARCTAN",P6,"QUIT",P7)
 Lbl P1
 Input "θ:",θ
 (^(θ)-^(­θ))/(2)→Z
@@ -66,4 +68,42 @@ Disp θ
 DelVar Z
 Stop
 Lbl P7
+Stop
+Stop
+Lbl F2
+Menu("DEG OR RAD","DEG",U1,"RAD",U2)
+Lbl U1
+Input "θ:",W
+(W-360*int(W/360))→θ
+If θ≤­180
+Then
+θ+360→θ
+End
+If θ>180
+Then
+θ-360→θ
+End
+Disp "VALUES STORED: θ"
+Disp "CHANGED BY: "+toString(W-θ)+"°"
+Disp toString(θ)+"°"
+DelVar W
+Stop
+Lbl U2
+Input "θ:",W
+(W-2π*int(W/(2π)))→θ
+If θ≤­π
+Then
+θ+2π→θ
+End
+If θ>π
+Then
+θ-2π→θ
+End
+Disp "VALUES STORED: θ"
+Disp "Changed BY: "+toString((W-θ)/π)+"π"
+Disp toString(θ)+" rad"
+DelVar W
+Stop
+Stop
+Lbl F3
 Stop

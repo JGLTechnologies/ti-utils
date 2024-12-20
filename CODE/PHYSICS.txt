@@ -76,7 +76,7 @@ End
 End
 √(X²+Y²)→M
 Disp "MAGNITUDE, ANGLE: M, θ"
-Disp toString(M)+" @ "+toString(θ)+"Rad"
+Disp toString(M)+" @ "+toString(θ)+"rad"
 DelVar X
 DelVar Y
 Stop
