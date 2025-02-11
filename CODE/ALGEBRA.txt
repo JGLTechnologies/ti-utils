@@ -1,4 +1,4 @@
-Menu("ALGEBRA","QUAD",P1,"CUBIC",P2,"SYSTEM STD FORM",P3,"SYSTEM Y INT FORM",P4,"QUIT",P5)
+Menu("ALGEBRA","QUAD",P1,"CUBIC",P2,"SYSTEM STD FORM",P3,"SYSTEM Y INT FORM",P4,"SYSTEM BOTH",P6,"QUIT",P5)
 Lbl P1
 Input "A:",A
 Input "B:",B
@@ -108,6 +108,45 @@ DelVar A
 DelVar B
 DelVar C
 DelVar D
+DelVar [H]
+DelVar [I]
+DelVar [J]
+Return
+End
+([I][J])→[H]
+[H](1,1)→X
+[H](2,1)→Y
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar [H]
+DelVar [I]
+DelVar [J]
+Disp "VALUES STORED: X, Y"
+Disp "X:"
+Disp XFrac
+Disp "Y:"
+Disp YFrac
+Stop
+Lbl P6
+Disp "EQ 1 (Y INT)"
+Input "M:",A
+Input "B:",B
+Disp "EQ 2 (STD FORM)"
+Input "A:",C
+Input "B:",D
+Input "C:",E
+Listmatr({A,C},{­1,D},[I])
+Listmatr({­B,E},[J])
+If det([I])=0
+Then
+Disp "NO UNIQUE SOLUTION"
+DelVar A
+DelVar B
+DelVar C
+DelVar D
+DelVar E
 DelVar [H]
 DelVar [I]
 DelVar [J]

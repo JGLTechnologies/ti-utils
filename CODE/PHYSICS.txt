@@ -215,7 +215,7 @@ Lbl O5
 Stop
 Stop
 Lbl P4
-Menu("Constants","Speed of light",C1,"Gravtiational constant",C2,"a due to gravity",C3,"QUIT",C4)
+Menu("Constants","Speed of light",C1,"Gravtiational constant",C2,"a due to gravity m/s^2",C3,"a due to gravity ft/s^2",C5,"QUIT",C4)
 Lbl C1
 Disp toString(299792458)+" m/s"
 299792458→X
@@ -227,6 +227,10 @@ Stop
 Lbl C3
 Disp toString(9.80665)+" m/s^2"
 9.80665→X
+Stop
+Lbl C5
+Disp toString(9.80665/0.3048)+" ft/s^2"
+9.80665/0.3048→X
 Stop
 Lbl C4
 Stop
