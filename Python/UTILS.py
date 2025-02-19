@@ -30,10 +30,9 @@ def format_polynomial(x):
     str_result = ""
     for i in range(len(x) - 1):
         c = x[i]
+        c = round(c, 5)
         if is_int(c):
             c = int(c)
-        else:
-            c = round(c, 5)
         if c == 0:
             continue
         if i == 0:
@@ -72,6 +71,7 @@ def format_polynomial(x):
                         + str(len(x) - i - 1)
                     )
     c = x[-1]
+    c = round(c, 5)
     if c != 0:
         if is_int(c):
             c = int(c)

@@ -1,9 +1,10 @@
+from UTILS import is_int
 from UTILS_2 import get_factors
 
 
 def is_perfect_root(n, root):
     r = n ** (1 / root)
-    if isinstance(r, int) or (isinstance(r, float) and r.is_integer()):
+    if isinstance(r, int) or (isinstance(r, float) and is_int(r)):
         return True
     return False
 
