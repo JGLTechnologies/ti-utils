@@ -33,6 +33,17 @@ def root_simplify(n, root):
 
 
 def main():
+    number = input("Number: ").replace(" ", "")
+    try:
+        int(number)
+    except ValueError:
+        print("Number must be an integer.")
+        main()
+        return
+    if str(int(number)) != number:
+        print("Number must be an integer.")
+        main()
+        return
     root = input("Root: ").replace(" ", "")
     try:
         if int(root) < 1:
@@ -45,17 +56,6 @@ def main():
         return
     if str(int(root)) != root:
         print("Root must be an integer.")
-        main()
-        return
-    number = input("Number: ").replace(" ", "")
-    try:
-        int(number)
-    except ValueError:
-        print("Number must be an integer.")
-        main()
-        return
-    if str(int(number)) != number:
-        print("Number must be an integer.")
         main()
         return
     print(root_simplify(int(number), int(root)))
