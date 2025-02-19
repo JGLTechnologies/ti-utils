@@ -1,5 +1,5 @@
 from UTILS import *
-from UTILS_F import *
+from UTILS_2 import *
 
 gcf = 0
 monomial_factors = 0
@@ -43,9 +43,15 @@ def factor_polynomial(coeffs):
     # Perfect square trinomial
     if len([c for c in coeffs if c != 0]) == 3:
         terms = get_terms(coeffs)
-        if terms[0][1] == 2 * terms[1][1] and terms[2][1] == 0 and terms[0][0] > 0 and terms[2][0] > 0 and is_int(
-                terms[0][0] ** 0.5) and is_int(terms[2][0] ** 0.5) and abs(terms[1][0]) == 2 * terms[0][0] ** 0.5 * \
-                terms[2][0] ** 0.5:
+        if (
+            terms[0][1] == 2 * terms[1][1]
+            and terms[2][1] == 0
+            and terms[0][0] > 0
+            and terms[2][0] > 0
+            and is_int(terms[0][0] ** 0.5)
+            and is_int(terms[2][0] ** 0.5)
+            and abs(terms[1][0]) == 2 * terms[0][0] ** 0.5 * terms[2][0] ** 0.5
+        ):
             power = int(terms[0][1] / 2)
             sign = -1 if terms[1][0] < 0 else 1
             a = terms[0][0] ** 0.5
@@ -59,8 +65,13 @@ def factor_polynomial(coeffs):
     # Difference of 2 squares
     if len([c for c in coeffs if c != 0]) == 2:
         terms = get_terms(coeffs)
-        if terms[0][1] % 2 == 0 and terms[1][1] % 2 == 0 and is_int(abs(terms[0][0]) ** 0.5) and is_int(
-                abs(terms[1][0]) ** 0.5) and terms[1][0] < 0:
+        if (
+            terms[0][1] % 2 == 0
+            and terms[1][1] % 2 == 0
+            and is_int(abs(terms[0][0]) ** 0.5)
+            and is_int(abs(terms[1][0]) ** 0.5)
+            and terms[1][0] < 0
+        ):
             a = terms[0][0] ** 0.5
             b = abs(terms[1][0]) ** 0.5
             power_a = int(terms[0][1] / 2)
@@ -101,7 +112,9 @@ def factor_polynomial(coeffs):
         group_2 = [g / gcf_2 for g in coeffs_2]
 
         if group_1 == group_2:
-            for factor in factor_polynomial(get_coeffs([(gcf_1, max_power_1), (gcf_2, max_power_2)])):
+            for factor in factor_polynomial(
+                get_coeffs([(gcf_1, max_power_1), (gcf_2, max_power_2)])
+            ):
                 yield factor
             for factor in factor_polynomial(group_1):
                 yield factor
