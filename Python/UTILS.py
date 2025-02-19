@@ -8,7 +8,7 @@ def multiply_poly(a, b):
     result = []
     for a_term in a_terms:
         for b_term in b_terms:
-            result.append((b_term[0]*a_term[0], b_term[1]+a_term[1]))
+            result.append((b_term[0] * a_term[0], b_term[1] + a_term[1]))
     return get_coeffs(result)
 
 
@@ -31,7 +31,9 @@ def format_polynomial(x):
     for i in range(len(x) - 1):
         c = x[i]
         if is_int(c):
-           c = int(c)
+            c = int(c)
+        else:
+            c = round(c, 5)
         if c == 0:
             continue
         if i == 0:
@@ -64,15 +66,15 @@ def format_polynomial(x):
                     str_result += " - x^" + str(len(x) - i - 1)
                 else:
                     str_result += (
-                            (" + " if c > 0 else " - ")
-                            + str(abs(c))
-                            + "x^"
-                            + str(len(x) - i - 1)
+                        (" + " if c > 0 else " - ")
+                        + str(abs(c))
+                        + "x^"
+                        + str(len(x) - i - 1)
                     )
     c = x[-1]
     if c != 0:
         if is_int(c):
-           c = int(c)
+            c = int(c)
         str_result += (" + " if c > 0 else " - ") + str(abs(c))
     return str_result
 
@@ -115,7 +117,7 @@ def subtract(x, y):
             z += 1
         else:
             break
-    return result[z: len(result)]
+    return result[z : len(result)]
 
 
 def divide(poly, divisor):
