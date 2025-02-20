@@ -1,9 +1,7 @@
-def round_num(n, digits=5):
-    multiplier = 10 ** digits
-    if n >= 0:
-        return int(n * multiplier + 0.5) / multiplier
-    else:
-        return -int(-n * multiplier + 0.5) / multiplier
+def format_number(n):
+    s = "{:.5f}".format(n)
+    s = s.rstrip("0").rstrip(".")
+    return s
 
 
 def input_to_list(input_str):
@@ -38,9 +36,6 @@ def format_polynomial(x):
     str_result = ""
     for i in range(len(x) - 1):
         c = x[i]
-        c = round_num(c)
-        if is_int(c):
-            c = int(c)
         if c == 0:
             continue
         if i == 0:
@@ -50,14 +45,14 @@ def format_polynomial(x):
                 elif c == -1:
                     str_result += "-x"
                 else:
-                    str_result += str(c) + "x"
+                    str_result += format_number(c) + "x"
             else:
                 if c == 1:
                     str_result += "x^" + str(len(x) - i - 1)
                 elif c == -1:
                     str_result += "-x^" + str(len(x) - i - 1)
                 else:
-                    str_result += str(c) + "x^" + str(len(x) - i - 1)
+                    str_result += format_number(c) + "x^" + str(len(x) - i - 1)
         else:
             if len(x) - i - 1 == 1:
                 if c == 1:
@@ -65,7 +60,9 @@ def format_polynomial(x):
                 elif c == -1:
                     str_result += " - x"
                 else:
-                    str_result += (" + " if c > 0 else " - ") + str(abs(c)) + "x"
+                    str_result += (
+                            (" + " if c > 0 else " - ") + format_number(abs(c)) + "x"
+                    )
             else:
                 if c == 1:
                     str_result += " + x^" + str(len(x) - i - 1)
@@ -74,16 +71,13 @@ def format_polynomial(x):
                 else:
                     str_result += (
                             (" + " if c > 0 else " - ")
-                            + str(abs(c))
+                            + format_number(abs(c))
                             + "x^"
                             + str(len(x) - i - 1)
                     )
     c = x[-1]
-    c = round_num(c)
     if c != 0:
-        if is_int(c):
-            c = int(c)
-        str_result += (" + " if c > 0 else " - ") + str(abs(c))
+        str_result += (" + " if c > 0 else " - ") + format_number(abs(c))
     return str_result
 
 
