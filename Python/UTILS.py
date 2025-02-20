@@ -1,3 +1,11 @@
+def round_num(n, digits=5):
+    multiplier = 10 ** digits
+    if n >= 0:
+        return int(n * multiplier + 0.5) / multiplier
+    else:
+        return -int(-n * multiplier + 0.5) / multiplier
+
+
 def input_to_list(input_str):
     return [float(num) for num in input_str.split(",")]
 
@@ -30,7 +38,7 @@ def format_polynomial(x):
     str_result = ""
     for i in range(len(x) - 1):
         c = x[i]
-        c = round(c, 5)
+        c = round_num(c)
         if is_int(c):
             c = int(c)
         if c == 0:
@@ -65,13 +73,13 @@ def format_polynomial(x):
                     str_result += " - x^" + str(len(x) - i - 1)
                 else:
                     str_result += (
-                        (" + " if c > 0 else " - ")
-                        + str(abs(c))
-                        + "x^"
-                        + str(len(x) - i - 1)
+                            (" + " if c > 0 else " - ")
+                            + str(abs(c))
+                            + "x^"
+                            + str(len(x) - i - 1)
                     )
     c = x[-1]
-    c = round(c, 5)
+    c = round_num(c)
     if c != 0:
         if is_int(c):
             c = int(c)
@@ -117,7 +125,7 @@ def subtract(x, y):
             z += 1
         else:
             break
-    return result[z : len(result)]
+    return result[z: len(result)]
 
 
 def divide(poly, divisor):
