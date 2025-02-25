@@ -1,7 +1,23 @@
+def is_int(x):
+    if isinstance(x, int):
+        return True
+    try:
+        return int(str(x).split(".")[1]) == 0
+    except ValueError:
+        return False
+
+
 def format_number(n):
-    s = "{:.5f}".format(n)
-    s = s.rstrip("0").rstrip(".")
-    return s
+    neg = n < 0
+    n = abs(n)
+    s = "{:.9f}".format(n).rstrip("0").rstrip(".")
+    x = s.split(".")
+    if len(x) > 1:
+        if x[1] == "999999999":
+            s = str(int(x[0]) + 1)
+            return "-" + s if neg else s
+    s = "{:.5f}".format(float(s)).rstrip("0").rstrip(".")
+    return "-" + s if neg else s
 
 
 def input_to_list(input_str):
@@ -16,15 +32,6 @@ def multiply_poly(a, b):
         for b_term in b_terms:
             result.append((b_term[0] * a_term[0], b_term[1] + a_term[1]))
     return get_coeffs(result)
-
-
-def is_int(x):
-    if isinstance(x, int):
-        return True
-    try:
-        return int(str(x).split(".")[1]) == 0
-    except ValueError:
-        return False
 
 
 def format_polynomial(x):
