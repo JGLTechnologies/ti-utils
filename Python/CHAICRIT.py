@@ -117,8 +117,7 @@ def main():
     print("3 = right-tailed")
     tail = int(input("Tail (1/2/3): "))
 
-    alpha_percent = float(input("Significance Level: "))
-    alpha = alpha_percent / 100.0
+    alpha = float(input("Significance Level: "))
 
     result = chi_critical_tail(alpha, tail)
     if tail == 2:
