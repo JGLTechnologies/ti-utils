@@ -119,7 +119,7 @@ def z_critical_tail(alpha, tail):
 def main():
     print("Choose tail type:")
     print("1 = left-tailed")
-    print("2 = two-tailed (CI)")
+    print("2 = two-tailed")
     print("3 = right-tailed")
 
     tail = int(input("Tail (1/2/3): "))

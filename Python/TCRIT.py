@@ -122,12 +122,11 @@ def t_critical_tail(alpha, tail):
 
 def main():
     global v
-    n = float(input("Sample size n: "))
-    v = n - 1
+    v = float(input("Degrees of freedom: "))
 
     print("Tail type:")
     print("1 = left-tailed")
-    print("2 = two-tailed (CI)")
+    print("2 = two-tailed")
     print("3 = right-tailed")
     tail = int(input("Tail (1/2/3): "))
 

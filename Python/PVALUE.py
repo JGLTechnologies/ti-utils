@@ -117,8 +117,7 @@ def main():
     dist = int(input("Distribution type: "))
 
     if dist != 1:
-        n = float(input("Sample size n: "))
-        df = n - 1
+        df = float(input("Degrees of freedom: "))
 
     print("Tail: 1 = left, 2 = two-tailed, 3 = right")
     tail = int(input("Tail type: "))

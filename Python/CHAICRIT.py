@@ -108,8 +108,7 @@ def chi_critical_tail(alpha, tail):
 
 def main():
     global v
-    n = float(input("Sample size n: "))
-    v = n - 1
+    v = float(input("Degrees of freedom: "))
 
     print("Tail type:")
     print("1 = left-tailed")

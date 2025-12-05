@@ -139,7 +139,7 @@ def main():
 
     print("Tail type:")
     print("1 = left-tailed")
-    print("2 = two-tailed (CI)")
+    print("2 = two-tailed")
     print("3 = right-tailed")
     tail = int(input("Tail (1/2/3): "))
 
