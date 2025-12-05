@@ -1,0 +1,275 @@
+Menu("STAT","ZCRIT",P1,"TCRIT",P2,"CHAICRIT",P3,"PVALUE",P4,"RCRIT",P5,"WELCH DF",P7,"QUIT",P6)
+
+Lbl P1
+Disp "ZCRIT"
+Input "ALPHA:",A
+Input "TAIL:",B
+If B=1
+Then
+invNorm(A,0,1)→Z
+Disp "ZC:"
+Disp round(Z,3)
+Stop
+End
+If B=2
+Then
+invNorm(1-A/2,0,1)→Z
+Disp "Z:"
+Disp round(Z,3)
+Stop
+End
+If B=3
+Then
+invNorm(1-A,0,1)→Z
+Disp "ZC:"
+Disp round(Z,3)
+Stop
+End
+
+Lbl P2
+Disp "TCRIT"
+Input "ALPHA:",A
+Input "TAIL:",B
+Input "DF:",C
+If B=1
+Then
+invT(A,C)→T
+Disp "T:"
+Disp round(T,3)
+Stop
+End
+If B=2
+Then
+invT(1-A/2,C)→T
+Disp "T:"
+Disp round(T,3)
+Stop
+End
+If B=3
+Then
+invT(1-A,C)→T
+Disp "T:"
+Disp round(T,3)
+Stop
+End
+
+Lbl P3
+Disp "CHAICRIT"
+Input "ALPHA:",A
+Input "TAIL:",B
+Input "DF:",C
+
+If B=1
+Then
+A→T
+3*C→H
+If H<10
+Then
+10→H
+End
+0→L
+For(I,1,40)
+(L+H)/2→X
+χ²cdf(0,X,C)→P
+If P<T
+Then
+X→L
+Else
+X→H
+End
+End
+Disp "X2L:"
+Disp round(X,3)
+Stop
+End
+
+If B=3
+Then
+1-A→T
+3*C→H
+If H<10
+Then
+10→H
+End
+0→L
+For(I,1,40)
+(L+H)/2→X
+χ²cdf(0,X,C)→P
+If P<T
+Then
+X→L
+Else
+X→H
+End
+End
+Disp "X2R:"
+Disp round(X,3)
+Stop
+End
+
+If B=2
+Then
+A/2→T
+3*C→H
+If H<10
+Then
+10→H
+End
+0→L
+For(I,1,40)
+(L+H)/2→X
+χ²cdf(0,X,C)→P
+If P<T
+Then
+X→L
+Else
+X→H
+End
+End
+X→Y
+
+1-A/2→T
+3*C→H
+If H<10
+Then
+10→H
+End
+0→L
+For(I,1,40)
+(L+H)/2→X
+χ²cdf(0,X,C)→P
+If P<T
+Then
+X→L
+Else
+X→H
+End
+End
+X→Z
+
+Disp "X2L:"
+Disp round(Y,3)
+Disp "X2R:"
+Disp round(Z,3)
+Stop
+End
+
+Lbl P4
+Disp "PVALUE"
+Disp "DIST? 1=Z"
+Disp "2=T 3=CHI"
+Input "DIST:",D
+Input "TAIL:",B
+Input "STAT:",S
+If D≠1
+Then
+Input "DF:",C
+End
+
+If D=1
+Then
+If B=1
+Then
+normalcdf(-1E99,S,0,1)→P
+End
+If B=2
+Then
+abs(S)→U
+2*normalcdf(U,1E99,0,1)→P
+End
+If B=3
+Then
+normalcdf(S,1E99,0,1)→P
+End
+End
+
+If D=2
+Then
+If B=1
+Then
+tcdf(-1E99,S,C)→P
+End
+If B=2
+Then
+abs(S)→U
+2*tcdf(U,1E99,C)→P
+End
+If B=3
+Then
+tcdf(S,1E99,C)→P
+End
+End
+
+If D=3
+Then
+χ²cdf(0,S,C)→Q
+If B=1
+Then
+Q→P
+End
+If B=3
+Then
+1-Q→P
+End
+If B=2
+Then
+If Q<.5
+Then
+2*Q→P
+Else
+2*(1-Q)→P
+End
+End
+End
+
+Disp "P:"
+Disp round(P,3)
+Stop
+
+Lbl P5
+Disp "RCRIT"
+Input "ALPHA:",A
+Input "TAIL:",B
+Input "N:",N
+N-2→C
+If B=1
+Then
+invT(A,C)→T
+T/√(T^2+C)→R
+Disp "R:"
+Disp round(R,3)
+Stop
+End
+If B=2
+Then
+invT(1-A/2,C)→T
+T/√(T^2+C)→R
+Disp "R:"
+Disp round(R,3)
+Stop
+End
+If B=3
+Then
+invT(1-A,C)→T
+T/√(T^2+C)→R
+Disp "R:"
+Disp round(R,3)
+Stop
+End
+
+Lbl P7
+Disp "WELCH DF"
+Input "S1:",U
+Input "N1:",V
+Input "S2:",W
+Input "N2:",X
+(U^2/V+W^2/X)^2→N
+(U^2/V)^2/(V-1)+(W^2/X)^2/(X-1)→D
+N/D→F
+Disp "DF:"
+Disp round(F,0)
+Stop
+
+
+Lbl P6
+Stop
