@@ -170,7 +170,7 @@ If D=1
 Then
 If B=1
 Then
-normalcdf(-1E99,S,0,1)→P
+normalcdf(0-1E99,S,0,1)→P
 End
 If B=2
 Then
@@ -187,7 +187,7 @@ If D=2
 Then
 If B=1
 Then
-tcdf(-1E99,S,C)→P
+tcdf(0-1E99,S,C)→P
 End
 If B=2
 Then
@@ -269,7 +269,6 @@ N/D→F
 Disp "DF:"
 Disp round(F,0)
 Stop
-
 
 Lbl P6
 Stop
