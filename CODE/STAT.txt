@@ -1,4 +1,4 @@
-Menu("STAT","ZCRIT",P1,"TCRIT",P2,"CHAICRIT",P3,"PVALUE",P4,"RCRIT",P5,"WELCH DF",P7,"QUIT",P6)
+Menu("STAT","ZCRIT",P1,"TCRIT",P2,"CHAICRIT",P3,"PVALUE",P4,"RCRIT",P5,"WELCH DF",P7,"ANOVA",P6)
 
 Lbl P1
 Disp "ZCRIT"
@@ -271,4 +271,36 @@ Disp round(F,0)
 Stop
 
 Lbl P6
+Disp "ANOVA"
+Input "K:",K
+Input "N:",N
+Input "SST:",T
+Input "SSTR:",R
+T-R→E
+K-1→U
+N-K→V
+R/U→W
+E/V→Y
+W/Y→F
+0→A
+0→B
+50→M
+1000→S
+M/S→H
+For(I,1,S)
+I*H→X
+X^(U/2-1)*(1+U/V*X)^((0-(U+V))/2)→Z
+A+Z→A
+If X≥F
+Then
+B+Z→B
+End
+End
+H*A→A
+H*B→B
+B/A→P
+Disp "F:"
+Disp F
+Disp "P:"
+Disp P
 Stop
