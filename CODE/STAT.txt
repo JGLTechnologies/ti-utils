@@ -282,25 +282,122 @@ N-K→V
 R/U→W
 E/V→Y
 W/Y→F
-0→A
-0→B
-50→M
-1000→S
-M/S→H
-For(I,1,S)
-I*H→X
-X^(U/2-1)*(1+U/V*X)^((0-(U+V))/2)→Z
-A+Z→A
-If X≥F
-Then
-B+Z→B
-End
-End
-H*A→A
-H*B→B
-B/A→P
+Disp "DF1:"
+Disp U
+Disp "DF2:"
+Disp V
+Disp "SSE:"
+Disp E
+Disp "MSE:"
+Disp Y
 Disp "F:"
 Disp F
+0→A
+50→M
+200→S
+M^(1/2)→B
+B/S→H
+0→X
+If X=0
+Then
+If U=1
+Then
+2→Z
+Else
+0→Z
+End
+Else
+2*X^(U-1)*(1+U/V*X^2)^((0-(U+V))/2)→Z
+End
+Z→A
+B→X
+If X=0
+Then
+If U=1
+Then
+2→Z
+Else
+0→Z
+End
+Else
+2*X^(U-1)*(1+U/V*X^2)^((0-(U+V))/2)→Z
+End
+A+Z→A
+For(I,1,S-1)
+I*H→X
+If X=0
+Then
+If U=1
+Then
+2→Z
+Else
+0→Z
+End
+Else
+2*X^(U-1)*(1+U/V*X^2)^((0-(U+V))/2)→Z
+End
+If fPart(I/2)=0
+Then
+2*Z→Z
+Else
+4*Z→Z
+End
+A+Z→A
+End
+H/3*A→A
+F^(1/2)→C
+(B-C)/S→H
+0→D
+C→X
+If X=0
+Then
+If U=1
+Then
+2→Z
+Else
+0→Z
+End
+Else
+2*X^(U-1)*(1+U/V*X^2)^((0-(U+V))/2)→Z
+End
+Z→D
+B→X
+If X=0
+Then
+If U=1
+Then
+2→Z
+Else
+0→Z
+End
+Else
+2*X^(U-1)*(1+U/V*X^2)^((0-(U+V))/2)→Z
+End
+D+Z→D
+For(I,1,S-1)
+C+I*H→X
+If X=0
+Then
+If U=1
+Then
+2→Z
+Else
+0→Z
+End
+Else
+2*X^(U-1)*(1+U/V*X^2)^((0-(U+V))/2)→Z
+End
+If fPart(I/2)=0
+Then
+2*Z→Z
+Else
+4*Z→Z
+End
+D+Z→D
+End
+H/3*D→D
+D/A→P
 Disp "P:"
 Disp P
 Stop
+
