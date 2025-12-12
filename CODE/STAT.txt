@@ -282,6 +282,10 @@ N-K→V
 R/U→W
 E/V→Y
 W/Y→F
+Disp "DF1:"
+Disp U
+Disp "DF2:"
+Disp V
 Disp "SSE:"
 Disp E
 Disp "MSE:"
